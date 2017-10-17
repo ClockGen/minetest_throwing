@@ -1,6 +1,7 @@
  ##  Throwing mod reloaded
  
  #### This is another fork of throwing mod for minetest by Echoes91, which was further improved by MinetestForFun team.
+ * Keep in mind that this fork is still WIP and many survival-related things are not yet implemented (normal craft schematics, normal weapon wear, etc)
 #### New Stuff
 * Rewrote code related to damage, which causes mobs to respond to your attacks
 * Returned velocity-based damage
