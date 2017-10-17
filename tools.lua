@@ -23,7 +23,7 @@ if not DISABLE_COMPOSITE_BOW then
 end
 
 if not DISABLE_STEEL_BOW then
-	throwing_register_bow ('bow_steel', 'Steel bow', {x=1, y=1.4, z=0.5}, 30, 1.5, 250, false, {
+	throwing_register_bow ('bow_steel', 'Steel bow', {x=1, y=1.4, z=0.5}, 30, 2, 250, false, {
 			{'farming:string', 'default:steel_ingot', ''},
 			{'farming:string', '', 'default:steel_ingot'},
 			{'farming:string', 'default:steel_ingot', ''},
