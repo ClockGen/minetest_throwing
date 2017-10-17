@@ -37,7 +37,6 @@ local THROWING_ARROW_ENTITY={
 	lastpos={},
 	collisionbox = {0,0,0,0,0,0},
 	player = "",
-	bow_damage = 0,
 }
 
 THROWING_ARROW_ENTITY.on_step = function(self, dtime)
@@ -54,10 +53,8 @@ THROWING_ARROW_ENTITY.on_step = function(self, dtime)
 						if self.player and minetest.get_player_by_name(self.player) then
 							puncher = minetest.get_player_by_name(self.player)
 						end
-						local damage = 4
-						if self.bow_damage and self.bow_damage > 0 then
-							damage = damage + (self.bow_damage/12)
-						end
+						local speed = vector.length(self.object:getvelocity())
+						local damage = ((speed + 15)^1.2)/10
 						obj:punch(puncher, 1.0, {
 							full_punch_interval=1.0,
 							damage_groups={fleshy=damage},

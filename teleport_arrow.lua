@@ -37,11 +37,46 @@ local THROWING_ARROW_ENTITY={
 	lastpos={},
 	collisionbox = {0,0,0,0,0,0},
 	player = "",
-	bow_damage = 0,
 }
 
+local function add_effects(pos, radius)
+    minetest.sound_play("throwing_firework_boom", {pos=pos, gain=1, max_hear_distance=2*64})
+    minetest.add_particlespawner({
+        amount = 128,
+        time = 0.1,
+        minpos = vector.subtract(pos, radius / 2),
+        maxpos = vector.add(pos, radius / 2),
+        minvel = {x=-5, y=-5, z=-5},
+        maxvel = {x=5,  y=5,  z=5},
+        minacc = {x=0, y=0, z=0},
+        --~ maxacc = {x=-20, y=-50, z=-50},
+        minexptime = 2.5,
+        maxexptime = 3,
+        minsize = 2,
+        maxsize = 4,
+        texture = "particle_teleport.png",
+        glow=10,
+    })
+	end
 THROWING_ARROW_ENTITY.on_step = function(self, dtime)
 	local newpos = self.object:getpos()
+	
+	minetest.add_particlespawner({
+        amount = 16,
+        time = 0.1,
+        minpos = newpos,
+        maxpos = newpos,
+        minvel = {x = -math.random(0,2), y = -math.random(0,2), z = -math.random(0,2)},
+        maxvel = {x = math.random(0,2), y = math.random(0,2), z = math.random(0,2)},
+        minacc = {x=0, y=0, z=0},
+        --~ maxacc = {x=-20, y=-50, z=-50},
+        minexptime = 2.5,
+        maxexptime = 3,
+        minsize = 0.5,
+        maxsize = 1.3,
+        texture = "particle_teleport.png",
+        glow=5,
+    })
 	if self.lastpos.x ~= nil then
 		for _, pos in pairs(throwing_get_trajectoire(self, newpos)) do
 			local node = minetest.get_node(pos)
@@ -52,6 +87,7 @@ THROWING_ARROW_ENTITY.on_step = function(self, dtime)
 						local player = minetest.get_player_by_name(self.player)
 						if player then
 							player:setpos(self.lastpos)
+                            add_effects(self.lastpos, 5)
 						end
 					end
 					self.object:remove()
@@ -68,6 +104,7 @@ THROWING_ARROW_ENTITY.on_step = function(self, dtime)
 					local player = minetest.get_player_by_name(self.player)
 					if player then
 						player:setpos(self.lastpos)
+                        add_effects(self.lastpos, 5)
 					end
 				end
 				self.object:remove()
@@ -84,13 +121,13 @@ minetest.register_entity("throwing:arrow_teleport_entity", THROWING_ARROW_ENTITY
 minetest.register_craft({
 	output = 'throwing:arrow_teleport',
 	recipe = {
-		{'default:stick', 'default:stick', 'default:mese_crystal_fragment'}
+		{'default:stick', 'default:stick', 'default:mese_crystal'}
 	}
 })
 
 minetest.register_craft({
 	output = 'throwing:arrow_teleport',
 	recipe = {
-		{'default:mese_crystal_fragment', 'default:stick', 'default:stick'}
+		{'default:mese_crystal', 'default:stick', 'default:stick'}
 	}
 })

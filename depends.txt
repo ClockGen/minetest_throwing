@@ -4,3 +4,5 @@ dye
 bucket?
 fire?
 tnt?
+moreores?
+lightning?

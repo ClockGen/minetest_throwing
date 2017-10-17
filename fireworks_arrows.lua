@@ -1,4 +1,4 @@
-local function throwing_register_fireworks(color, desc)
+local function throwing_register_fireworks(color, color2, desc)
 	minetest.register_craftitem("throwing:arrow_fireworks_" .. color, {
 		description = desc .. "fireworks arrow",
 		inventory_image = "throwing_arrow_fireworks_" .. color .. ".png",
@@ -26,7 +26,7 @@ local function throwing_register_fireworks(color, desc)
 				{7.5/17, -2.5/17, -2.5/17, 8.5/17, -3.5/17, -3.5/17},
 			}
 		},
-		tiles = {"throwing_arrow_fireworks_" .. color .. ".png", "throwing_arrow_fireworks_" .. color .. ".png", "throwing_arrow_fireworks_" .. color .. "_back.png", "throwing_arrow_fireworks_" .. color .. "_front.png", "throwing_arrow_fireworks_" .. color .. "_2.png", "throwing_arrow_fireworks_" .. color .. ".png"},
+		tiles = {"throwing_arrow_fireworks" .. color .. ".png", "throwing_arrow_fireworks" .. color .. ".png", "throwing_arrow_fireworks_" .. color .. "back.png", "throwing_arrow_fireworks_" .. color .. "front.png", "throwing_arrow_fireworks_" .. color .. "2.png", "throwing_arrow_fireworks" .. color .. ".png"},
 		groups = {not_in_creative_inventory=1},
 	})
 
@@ -39,7 +39,6 @@ local function throwing_register_fireworks(color, desc)
 		lastpos={},
 		collisionbox = {0,0,0,0,0,0},
 		player = "",
-		bow_damage = 0,
 	}
 
 	local radius = 0.5
@@ -47,18 +46,37 @@ local function throwing_register_fireworks(color, desc)
 	local function add_effects(pos, radius)
 		minetest.add_particlespawner({
 			amount = 256,
-			time = 0.2,
+			time = 0.1,
 			minpos = vector.subtract(pos, radius / 2),
 			maxpos = vector.add(pos, radius / 2),
-			minvel = {x=-5, y=-5, z=-5},
-			maxvel = {x=5,  y=5,  z=5},
+			minvel = {x=-15, y=-15, z=-15},
+			maxvel = {x=15,  y=15,  z=15},
 			minacc = {x=0, y=-8, z=0},
 			--~ maxacc = {x=-20, y=-50, z=-50},
 			minexptime = 2.5,
 			maxexptime = 3,
-			minsize = 1,
-			maxsize = 2.5,
+			minsize = 3,
+			maxsize = 6,
 			texture = "throwing_sparkle_" .. color .. ".png",
+            glow=15,
+            collisiondetection = true,
+		})
+        minetest.add_particlespawner({
+			amount = 256,
+			time = 0.1,
+			minpos = vector.subtract(pos, radius / 2),
+			maxpos = vector.add(pos, radius / 2),
+			minvel = {x=-15, y=-15, z=-15},
+			maxvel = {x=15,  y=15,  z=15},
+			minacc = {x=0, y=-8, z=0},
+			--~ maxacc = {x=-20, y=-50, z=-50},
+			minexptime = 2.5,
+			maxexptime = 3,
+			minsize = 3,
+			maxsize = 6,
+			texture = "throwing_sparkle_" .. color2 .. ".png",
+            glow=15,
+            collisiondetection = true,
 		})
 	end
 
@@ -77,12 +95,12 @@ local function throwing_register_fireworks(color, desc)
 	THROWING_ARROW_ENTITY.on_step = function(self, dtime)
 		self.timer=self.timer+dtime
 		local newpos = self.object:getpos()
-		if self.timer < 0.07 then
-			minetest.sound_play("throwing_firework_launch", {pos=newpos, gain=0.8, max_hear_distance=2*64})
+		if self.timer < 0.15 then
+			minetest.sound_play("throwing_firework_launch", {pos=newpos, gain=1, max_hear_distance=2*64})
 		end
 		minetest.add_particlespawner({
-			amount = 16,
-			time = 0.1,
+			amount = 32,
+			time = 0.2,
 			minpos = newpos,
 			maxpos = newpos,
 			minvel = {x=-5, y=-5, z=-5},
@@ -94,17 +112,20 @@ local function throwing_register_fireworks(color, desc)
 			minsize = 0.5,
 			maxsize = 1,
 			texture = "throwing_sparkle.png",
+            glow=10
 		})
 		if self.lastpos.x ~= nil then
 			for _, pos in pairs(throwing_get_trajectoire(self, newpos)) do
 				local objs = minetest.get_objects_inside_radius({x=pos.x,y=pos.y,z=pos.z}, 2)
 				for k, obj in pairs(objs) do
 					if throwing_is_player(self.player, obj) or throwing_is_entity(obj) then
-						local damage = 2
-						if self.bow_damage and self.bow_damage > 0 then
-							damage = damage + (self.bow_damage/12)
+						local speed = vector.length(self.object:getvelocity())
+						local damage = ((speed + 15)^1.2)/10
+						local puncher = self.object
+						if self.player and minetest.get_player_by_name(self.player) then
+							puncher = minetest.get_player_by_name(self.player)
 						end
-						obj:punch(self.object, 1.0, {
+						obj:punch(puncher, 1.0, {
 							full_punch_interval=1.0,
 							damage_groups={fleshy=damage},
 						}, nil)
@@ -149,11 +170,15 @@ end
 --~ Arrows
 
 if not DISABLE_FIREWORKS_BLUE_ARROW then
-	throwing_register_fireworks('blue', 'Blue')
+	throwing_register_fireworks('blue', 'magenta', 'Blue')
 end
 
 if not DISABLE_FIREWORKS_RED_ARROW then
-	throwing_register_fireworks('red', 'Red')
+	throwing_register_fireworks('red', 'orange', 'Red')
+end
+
+if not DISABLE_FIREWORKS_GREEN_ARROW then
+	throwing_register_fireworks('green', 'cyan', 'Green')
 end
 
 --~ Nodes

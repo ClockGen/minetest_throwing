@@ -31,6 +31,28 @@ function throwing_register_arrow_standard (kind, desc, eq, toughness, craft)
 		groups = {not_in_creative_inventory=1},
 	})
 
+local function add_effects(pos, node)
+	minetest.sound_play("default_dug_metal", {pos=pos, gain=1, max_hear_distance=2*64})
+	if minetest.registered_nodes[node.name].tiles~=nil then
+		texture = minetest.registered_nodes[node.name].tiles[1]
+		minetest.add_particlespawner({
+			amount = 8,
+			time = 0.1,
+			minpos = pos,
+			maxpos = pos,
+			minvel = {x = -2, y = -2, z = -2},
+			maxvel = {x = 2, y = 2,  z = 2},
+			minacc = {x = 0, y = -8, z = 0},
+			maxacc = {x = 0, y = -8, z = 0},
+			minexptime = 0.8,
+			maxexptime = 2.0,
+			minsize = 1,
+			maxsize = 3,
+			texture = texture,
+			collisiondetection = true,
+			})
+	end
+end
 	local THROWING_ARROW_ENTITY={
 		physical = false,
 		visual = "wielditem",
@@ -39,7 +61,6 @@ function throwing_register_arrow_standard (kind, desc, eq, toughness, craft)
 		lastpos={},
 		collisionbox = {0,0,0,0,0,0},
 		player = "",
-		bow_damage = 0,
 	}
 
 	THROWING_ARROW_ENTITY.on_step = function(self, dtime)
@@ -56,14 +77,13 @@ function throwing_register_arrow_standard (kind, desc, eq, toughness, craft)
 							if self.player and minetest.get_player_by_name(self.player) then
 								puncher = minetest.get_player_by_name(self.player)
 							end
-							local damage = eq
-							if self.bow_damage and self.bow_damage > 0 then
-								damage = damage + (self.bow_damage/12)
-							end
+							local speed = vector.length(self.object:getvelocity())
+							local damage = ((speed + eq)^1.2)/10
 							obj:punch(puncher, 1.0, {
 								full_punch_interval=1.0,
 								damage_groups={fleshy=damage},
 							}, nil)
+							minetest.sound_play("default_dug_metal", {pos=objpos, gain=1, max_hear_distance=2*64})
 							if math.random() < toughness then
 								if math.random(0,100) % 2 == 0 then
 									minetest.add_item(self.lastpos, 'throwing:arrow_' .. kind)
@@ -82,6 +102,7 @@ function throwing_register_arrow_standard (kind, desc, eq, toughness, craft)
 				and not (string.find(node.name, 'farming:') and not string.find(node.name, 'soil'))
 				and not string.find(node.name, 'flowers:')
 				and not string.find(node.name, 'fire:') then
+					add_effects(self.lastpos, node)
 					if math.random() < toughness then
 						minetest.add_item(self.lastpos, 'throwing:arrow_' .. kind)
 					else
@@ -114,18 +135,21 @@ function throwing_register_arrow_standard (kind, desc, eq, toughness, craft)
 end
 
 if not DISABLE_STONE_ARROW then
-	throwing_register_arrow_standard ('stone', 'Stone', 4, 0.40, 'group:stone')
+	throwing_register_arrow_standard ('stone', 'Stone', 5, 0.10, 'group:stone')
 end
 
 if not DISABLE_STEEL_ARROW then
-	throwing_register_arrow_standard ('steel', 'Steel', 5, 0.50, 'default:steel_ingot')
+	throwing_register_arrow_standard ('steel', 'Steel', 10, 0.80, 'default:steel_ingot')
 end
 
 if not DISABLE_OBSIDIAN_ARROW then
-	throwing_register_arrow_standard ('obsidian', 'Obsidian', 6, 0.60, 'default:obsidian')
+	throwing_register_arrow_standard ('obsidian', 'Obsidian', 15, 0.20, 'default:obsidian')
 end
 
 if not DISABLE_DIAMOND_ARROW then
-	throwing_register_arrow_standard ('diamond', 'Diamond', 7, 0.70, 'default:diamond')
+	throwing_register_arrow_standard ('diamond', 'Diamond', 20, 0.40, 'default:diamond')
 end
 
+if minetest.get_modpath('moreores') and not DISABLE_MITHRIL_ARROW then
+	throwing_register_arrow_standard ('mithril', 'Mithril', 30, 0.86, 'moreores:mithril_ingot')
+end

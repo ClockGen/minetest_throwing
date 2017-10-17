@@ -29,6 +29,29 @@ minetest.register_node("throwing:arrow_torch_box", {
 	groups = {not_in_creative_inventory=1},
 })
 
+local function add_effects(pos, node)
+	minetest.sound_play("default_dug_node", {pos=pos, gain=1, max_hear_distance=2*64})
+	if minetest.registered_nodes[node.name].tiles~=nil then
+		texture = minetest.registered_nodes[node.name].tiles[1]
+		minetest.add_particlespawner({
+			amount = 8,
+			time = 0.1,
+			minpos = pos,
+			maxpos = pos,
+			minvel = {x = -2, y = -2, z = -2},
+			maxvel = {x = 2, y = 2,  z = 2},
+			minacc = {x = 0, y = -8, z = 0},
+			maxacc = {x = 0, y = -8, z = 0},
+			minexptime = 0.8,
+			maxexptime = 2.0,
+			minsize = 1,
+			maxsize = 3,
+			texture = texture,
+			collisiondetection = true,
+			})
+	end
+end
+
 local THROWING_ARROW_ENTITY={
 	physical = false,
 	visual = "wielditem",
@@ -38,7 +61,6 @@ local THROWING_ARROW_ENTITY={
 	collisionbox = {0,0,0,0,0,0},
 	node = "",
 	player = "",
-	bow_damage = 0,
 }
 
 THROWING_ARROW_ENTITY.on_step = function(self, dtime)
@@ -55,10 +77,8 @@ THROWING_ARROW_ENTITY.on_step = function(self, dtime)
 						if self.player and minetest.get_player_by_name(self.player) then
 							puncher = minetest.get_player_by_name(self.player)
 						end
-						local damage = 0.5
-						if self.bow_damage and self.bow_damage > 0 then
-							damage = damage + (self.bow_damage/12)
-						end
+						local speed = vector.length(self.object:getvelocity())
+						local damage = ((speed + 5)^1.2)/10
 						obj:punch(puncher, 1.0, {
 							full_punch_interval=1.0,
 							damage_groups={fleshy=damage},
@@ -95,6 +115,7 @@ THROWING_ARROW_ENTITY.on_step = function(self, dtime)
 					local dir=vector.direction(self.lastpos, pos)
 					local wall=minetest.dir_to_wallmounted(dir)
 					minetest.add_node(self.lastpos, {name="default:torch", param2 = wall})
+					add_effects(self.lastpos, node)
 				else
 					local toughness = 0.9
 					if math.random() < toughness then

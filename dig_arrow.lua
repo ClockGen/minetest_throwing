@@ -29,6 +29,27 @@ minetest.register_node("throwing:arrow_dig_box", {
 	groups = {not_in_creative_inventory=1},
 })
 
+local function addEffect(pos, node)
+	minetest.sound_play("default_dug_node", {pos=pos, gain=1, max_hear_distance=2*64})
+	texture=minetest.registered_nodes[node.name].tiles[1]
+	minetest.add_particlespawner({
+			amount = 16,
+			time = 0.1,
+			minpos = pos,
+			maxpos = pos,
+			minvel = {x = -5, y = -5, z = -5},
+			maxvel = {x = 5, y = 5,  z = 5},
+			minacc = {x = 0, y = -8, z = 0},
+			maxacc = {x = 0, y = -8, z = 0},
+			minexptime = 0.8,
+			maxexptime = 2.0,
+			minsize = 4,
+			maxsize = 6,
+			texture = texture,
+			collisiondetection = true,
+		})
+end
+
 local THROWING_ARROW_ENTITY={
 	physical = false,
 	timer=0,
@@ -51,19 +72,7 @@ THROWING_ARROW_ENTITY.on_step = function(self, dtime)
 			for k, obj in pairs(objs) do
 				if throwing_is_player(self.player, obj) or throwing_is_entity(obj) then
 					if throwing_touch(pos, obj:getpos()) then
-						local puncher = self.object
-						if self.player and minetest.get_player_by_name(self.player) then
-							puncher = minetest.get_player_by_name(self.player)
-						end
-						local damage = 1.5
-						if self.bow_damage and self.bow_damage > 0 then
-							damage = damage + (self.bow_damage/12)
-						end
-						obj:punch(puncher, 1.0, {
-							full_punch_interval=1.0,
-							damage_groups={fleshy=damage},
-						}, nil)
-						if math.random(0,100) % 2 == 0 then -- 50% of chance to drop //MFF (Mg|07/27/15)
+						if math.random(0,100) % 1.1 == 0 then -- chance to drop
 							minetest.add_item(pos, "throwing:arrow_dig")
 						end
 						self.object:remove()
@@ -80,7 +89,8 @@ THROWING_ARROW_ENTITY.on_step = function(self, dtime)
 				if node.name ~= "ignore" and minetest.get_item_group(node.name, "unbreakable") == 0
 					and not minetest.is_protected(pos, self.player)
 					and node.diggable ~= false then
-					minetest.set_node(pos, {name = "air"})
+					addEffect(pos, node)
+					minetest.dig_node(pos)
 					minetest.add_item(pos, node.name)
 				end
 				self.object:remove()
