@@ -4,7 +4,7 @@
 #### New Stuff
 * Rewrote code related to damage, which causes mobs to respond to your attacks
 * Returned velocity-based damage
-* Increased base velocity of all bows and crossbows to
+* Increased base velocity of all bows and crossbows 
 * Added one new crossbow (repeating crossbow) and replaced royal bow with more realistic equivalent
 * Added more colors to fireworks
 * Added new lightning arrow(activates if you have lightning mod installed), which causes a lightning strike at the point of impact
@@ -12,7 +12,7 @@
 * Rewrote tnt arrow, that now has cosmetic effect of an explosion and AoE damage, but no actual node destruction
 * Added particle effects and sounds to all arrows, usual arrows produce particles and sound on impact, teleport arrows make particles like teleporters from telemosaic mod, etc
 * New textures for teleport, lightning, fireworks, and mithril arrows
-* Various code optimizations, fixes and improvements
+* Various code optimizations, fixes and improvements (replaced use of some deprecated and obsolete functions, though I'm still improving the code)
 #### Balance
 * Bows and crossbows are craftable from common materials, but in big quantities (since I hardly see any usage for diamonds or gold in actual bows and crossbows)
 * Instead of bows having linear quality progressions, various bows offer various perks, for example small wooden bow takes least amount of wood to craft and can be drawn easily, but it gives little amount of velocity to the arrow. Same goes to 
