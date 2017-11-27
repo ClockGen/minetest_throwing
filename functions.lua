@@ -146,9 +146,9 @@ function throwing_register_bow (name, desc, scale, stiffness, reload_time, tough
 	    stack_max = 1,
 		on_use = function(itemstack, user, pointed_thing)
 			local wear = itemstack:get_wear()
-			if not minetest.setting_getbool("creative_mode") then
-				wear = wear + (65535/toughness)
-			end
+			--if not minetest.setting_getbool("creative_mode") then
+			wear = wear + (65535/toughness)
+			--end
 			local unloaded = "throwing:" .. name
 			throwing_shoot_arrow(itemstack, user, stiffness, is_cross)
 			minetest.after(0, throwing_unload, itemstack, user, unloaded, wear)
