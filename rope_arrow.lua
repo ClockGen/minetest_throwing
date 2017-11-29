@@ -127,15 +127,15 @@ end
 minetest.register_entity("throwing:arrow_rope_entity", THROWING_ARROW_ENTITY)
 
 minetest.register_craft({
-	output = 'throwing:arrow_rope 4',
+	output = 'throwing:arrow_rope',
 	recipe = {
-		{'default:stick', 'default:stick', 'group:coal'},
+		{'default:stick', 'default:stick', 'vines:rope_block'},
 	}
 })
 
 minetest.register_craft({
-	output = 'throwing:arrow_rope 4',
+	output = 'throwing:arrow_rope',
 	recipe = {
-		{'group:coal', 'default:stick', 'default:stick'},
+		{'vines:rope_block', 'default:stick', 'default:stick'},
 	}
 })

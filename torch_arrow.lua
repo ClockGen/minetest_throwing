@@ -98,11 +98,7 @@ THROWING_ARROW_ENTITY.on_step = function(self, dtime)
 			end
 
 
-			if node.name == 'air' then
-				minetest.add_node(pos, {name="throwing:torch_trail"})
-				minetest.get_node_timer(pos):start(0.1)
-			elseif node.name ~= "air"
-			and not string.find(node.name, "trail")
+			if node.name ~= "air"
 			and not (string.find(node.name, 'grass') and not string.find(node.name, 'dirt'))
 			and not (string.find(node.name, 'farming:') and not string.find(node.name, 'soil'))
 			and not string.find(node.name, 'flowers:')
@@ -114,7 +110,13 @@ THROWING_ARROW_ENTITY.on_step = function(self, dtime)
 				 and not minetest.is_protected(self.lastpos, self.player) and node.diggable ~= false then
 					local dir=vector.direction(self.lastpos, pos)
 					local wall=minetest.dir_to_wallmounted(dir)
-					minetest.add_node(self.lastpos, {name="default:torch", param2 = wall})
+					if wall == 0 then
+						minetest.add_node(self.lastpos, {name="default:torch_ceiling", param2 = wall})
+					elseif wall == 1 then 
+						minetest.add_node(self.lastpos, {name="default:torch", param2 = wall})
+					else
+						minetest.add_node(self.lastpos, {name="default:torch_wall", param2 = wall})
+					end
 					add_effects(self.lastpos, node)
 				else
 					local toughness = 0.9
@@ -147,15 +149,4 @@ minetest.register_craft({
 	recipe = {
 		{'group:coal', 'default:stick', 'default:stick'},
 	}
-})
-
-minetest.register_node("throwing:torch_trail", {
-	drawtype = "airlike",
-	light_source = default.LIGHT_MAX-1,
-	walkable = false,
-	drop = "",
-	groups = {dig_immediate=3},
-	on_timer = function(pos, elapsed)
-		minetest.remove_node(pos)
-	end,
 })

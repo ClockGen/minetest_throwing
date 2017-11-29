@@ -83,10 +83,6 @@ local function throwing_register_fireworks(color, color2, desc)
 
 	local function boom(pos)
 		minetest.sound_play("throwing_firework_boom", {pos=pos, gain=1, max_hear_distance=2*64})
-		if minetest.get_node(pos).name == 'air' or minetest.get_node(pos).name == 'throwing:firework_trail' then
-			minetest.add_node(pos, {name="throwing:firework_boom"})
-			minetest.get_node_timer(pos):start(0.2)
-		end
 		add_effects(pos, radius)
 	end
 
@@ -136,14 +132,10 @@ local function throwing_register_fireworks(color, color2, desc)
 				end
 			end
 			local node = minetest.get_node(newpos)
-			if self.timer > 2 or node.name ~= "air" and node.name ~= "throwing:firework_trail" then
+			if self.timer > 2 or node.name ~= "air" then
 				boom(self.lastpos)
 				self.object:remove()
 				return
-			end
-			if node.name == 'air' then
-				minetest.add_node(newpos, {name="throwing:firework_trail"})
-				minetest.get_node_timer(newpos):start(0.1)
 			end
 		end
 		self.lastpos={x=newpos.x, y=newpos.y, z=newpos.z}
@@ -153,16 +145,16 @@ local function throwing_register_fireworks(color, color2, desc)
 	minetest.register_entity("throwing:arrow_fireworks_" .. color .. "_entity", THROWING_ARROW_ENTITY)
 
 	minetest.register_craft({
-		output = 'throwing:arrow_fireworks_' .. color .. ' 8',
+		output = 'throwing:arrow_fireworks_' .. color .. ,
 		recipe = {
-			{'default:stick', 'tnt:gunpowder', 'dye:' .. color},
+			{'default:stick', 'group:coal', 'dye:' .. color},
 		}
 	})
 
 	minetest.register_craft({
-		output = 'throwing:arrow_fireworks_' .. color .. ' 8',
+		output = 'throwing:arrow_fireworks_' .. color .. ,
 		recipe = {
-			{'dye:' .. color, 'tnt:gunpowder', 'default:stick'},
+			{'dye:' .. color, 'group:coal', 'default:stick'},
 		}
 	})
 end
@@ -181,42 +173,3 @@ if not DISABLE_FIREWORKS_GREEN_ARROW then
 	throwing_register_fireworks('green', 'cyan', 'Green')
 end
 
---~ Nodes
-
-minetest.register_node("throwing:firework_trail", {
-	drawtype = "airlike",
-	light_source = 9,
-	walkable = false,
-	drop = "",
-	groups = {dig_immediate=3},
-	on_timer = function(pos, elapsed)
-		minetest.remove_node(pos)
-	end,
-})
-
-minetest.register_node("throwing:firework_boom", {
-	drawtype = "plantlike",
-	tiles = {"throwing_sparkle.png"},
-	light_source = default.LIGHT_MAX,
-	walkable = false,
-	drop = "",
-	groups = {dig_immediate=3},
-	on_timer = function(pos, elapsed)
-		minetest.remove_node(pos)
-	end,
-	after_destruct = function(pos, oldnode)
-		minetest.set_node(pos, {name="throwing:firework_light"})
-		minetest.get_node_timer(pos):start(3)
-	end,
-})
-
-minetest.register_node("throwing:firework_light", {
-	drawtype = "airlike",
-	light_source = default.LIGHT_MAX,
-	walkable = false,
-	drop = "",
-	groups = {dig_immediate=3},
-	on_timer = function(pos, elapsed)
-		minetest.remove_node(pos)
-	end,
-})

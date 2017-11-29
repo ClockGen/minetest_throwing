@@ -120,14 +120,14 @@ end
 	minetest.register_entity("throwing:arrow_" .. kind .. "_entity", THROWING_ARROW_ENTITY)
 
 	minetest.register_craft({
-		output = 'throwing:arrow_' .. kind .. ' 16',
+		output = 'throwing:arrow_' .. kind .. ' 4',
 		recipe = {
 			{'default:stick', 'default:stick', craft},
 		}
 	})
 
 	minetest.register_craft({
-		output = 'throwing:arrow_' .. kind .. ' 16',
+		output = 'throwing:arrow_' .. kind .. ' 4',
 		recipe = {
 			{craft, 'default:stick', 'default:stick'},
 		}
