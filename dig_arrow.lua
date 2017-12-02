@@ -31,23 +31,25 @@ minetest.register_node("throwing:arrow_dig_box", {
 
 local function addEffect(pos, node)
 	minetest.sound_play("default_dug_node", {pos=pos, gain=1, max_hear_distance=2*64})
-	texture=minetest.registered_nodes[node.name].tiles[1]
-	minetest.add_particlespawner({
-			amount = 16,
-			time = 0.1,
-			minpos = pos,
-			maxpos = pos,
-			minvel = {x = -5, y = -5, z = -5},
-			maxvel = {x = 5, y = 5,  z = 5},
-			minacc = {x = 0, y = -8, z = 0},
-			maxacc = {x = 0, y = -8, z = 0},
-			minexptime = 0.8,
-			maxexptime = 2.0,
-			minsize = 4,
-			maxsize = 6,
-			texture = texture,
-			collisiondetection = true,
-		})
+	if minetest.registered_nodes[node.name].tiles~=nil then
+		texture=minetest.registered_nodes[node.name].tiles[1]
+		minetest.add_particlespawner({
+				amount = 16,
+				time = 0.1,
+				minpos = pos,
+				maxpos = pos,
+				minvel = {x = -5, y = -5, z = -5},
+				maxvel = {x = 5, y = 5,  z = 5},
+				minacc = {x = 0, y = -8, z = 0},
+				maxacc = {x = 0, y = -8, z = 0},
+				minexptime = 0.8,
+				maxexptime = 2.0,
+				minsize = 4,
+				maxsize = 6,
+				texture = texture,
+				collisiondetection = true,
+			})
+	end
 end
 
 local THROWING_ARROW_ENTITY={
@@ -72,8 +74,10 @@ THROWING_ARROW_ENTITY.on_step = function(self, dtime)
 			for k, obj in pairs(objs) do
 				if throwing_is_player(self.player, obj) or throwing_is_entity(obj) then
 					if throwing_touch(pos, obj:getpos()) then
-						if math.random(0,100) % 1.1 == 0 then -- chance to drop
-							minetest.add_item(pos, "throwing:arrow_dig")
+						if math.random() < THROWING_RECOVERY_CHANCE then
+							minetest.add_item(pos, 'throwing:arrow_dig')
+						else
+							minetest.add_item(pos, 'default:stick')
 						end
 						self.object:remove()
 						return
@@ -91,7 +95,13 @@ THROWING_ARROW_ENTITY.on_step = function(self, dtime)
 					and node.diggable ~= false then
 					addEffect(pos, node)
 					minetest.dig_node(pos)
-					minetest.add_item(pos, node.name)
+					--minetest.add_item(pos, node.name)
+				else
+					if math.random() < THROWING_RECOVERY_CHANCE then
+						minetest.add_item(pos, 'throwing:arrow_dig')
+					else
+						minetest.add_item(pos, 'default:stick')
+					end
 				end
 				self.object:remove()
 				return

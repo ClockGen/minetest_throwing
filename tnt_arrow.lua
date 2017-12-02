@@ -1,5 +1,5 @@
 minetest.register_craftitem("throwing:arrow_tnt", {
-	description = "TNT arrow",
+	description = "TNT Arrow",
 	inventory_image = "throwing_arrow_tnt.png",
 })
 
@@ -95,14 +95,9 @@ end
 
 local function boom(pos)
 	minetest.sound_play("tnt_explode", {pos=pos, gain=1, max_hear_distance=2*64})
-	if minetest.get_node(pos).name == 'air' or minetest.get_node(pos).name == 'throwing:firework_trail' then
-		minetest.add_node(pos, {name="throwing:firework_boom"})
-		minetest.get_node_timer(pos):start(0.2)
-	end
 	add_effects(pos, 10)
 end
 
--- Back to the arrow
 local function damageInRadius(damage, puncher, pos, radius)
     local targs = minetest.get_objects_inside_radius({x=pos.x,y=pos.y,z=pos.z}, radius)
     for k, targ in pairs(targs) do
@@ -116,6 +111,7 @@ local function damageInRadius(damage, puncher, pos, radius)
         }, nil)
     end
 end
+
 THROWING_ARROW_ENTITY.on_step = function(self, dtime)
 	self.timer=self.timer+dtime
 	local newpos = self.object:getpos()
@@ -149,7 +145,7 @@ THROWING_ARROW_ENTITY.on_step = function(self, dtime)
                         if self.player and minetest.get_player_by_name(self.player) then
                             puncher = minetest.get_player_by_name(self.player)
                         end
-                        damageInRadius(30, puncher, pos, 8)
+                        damageInRadius(20, puncher, pos, 8)
                         effectsTexture(pos, node)
                         boom(pos)
                         self.object:remove()
@@ -163,7 +159,7 @@ THROWING_ARROW_ENTITY.on_step = function(self, dtime)
                 if self.player and minetest.get_player_by_name(self.player) then
                     puncher = minetest.get_player_by_name(self.player)
                 end
-                damageInRadius(30, puncher, pos, 8)
+                damageInRadius(20, puncher, pos, 8)
                 effectsTexture(pos, node)
                 boom(pos)
 				self.object:remove()
@@ -175,19 +171,18 @@ THROWING_ARROW_ENTITY.on_step = function(self, dtime)
 	self.lastpos={x=newpos.x, y=newpos.y, z=newpos.z}
 end
 
-
 minetest.register_entity("throwing:arrow_tnt_entity", THROWING_ARROW_ENTITY)
 
 minetest.register_craft({
 	output = 'throwing:arrow_tnt',
 	recipe = {
-		{'default:stick', 'tnt:tnt', 'default:bronze_ingot'},
+		{'default:stick', 'group:coal', 'default:bronze_ingot'},
 	}
 })
 
 minetest.register_craft({
 	output = 'throwing:arrow_tnt',
 	recipe = {
-		{'default:bronze_ingot', 'tnt:tnt', 'default:stick'},
+		{'default:bronze_ingot', 'group:coal', 'default:stick'},
 	}
 })

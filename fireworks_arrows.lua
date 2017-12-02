@@ -1,6 +1,6 @@
 local function throwing_register_fireworks(color, color2, desc)
 	minetest.register_craftitem("throwing:arrow_fireworks_" .. color, {
-		description = desc .. "fireworks arrow",
+		description = desc .. " Fireworks Arrow",
 		inventory_image = "throwing_arrow_fireworks_" .. color .. ".png",
 	})
 
@@ -145,14 +145,14 @@ local function throwing_register_fireworks(color, color2, desc)
 	minetest.register_entity("throwing:arrow_fireworks_" .. color .. "_entity", THROWING_ARROW_ENTITY)
 
 	minetest.register_craft({
-		output = 'throwing:arrow_fireworks_' .. color .. ,
+		output = 'throwing:arrow_fireworks_' .. color,
 		recipe = {
 			{'default:stick', 'group:coal', 'dye:' .. color},
 		}
 	})
 
 	minetest.register_craft({
-		output = 'throwing:arrow_fireworks_' .. color .. ,
+		output = 'throwing:arrow_fireworks_' .. color,
 		recipe = {
 			{'dye:' .. color, 'group:coal', 'default:stick'},
 		}

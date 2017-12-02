@@ -1,0 +1,29 @@
+DISABLE_WOODEN_BOW (Disable Wooden Bow) bool false
+DISABLE_LONGBOW (Disable Longbow) bool false
+DISABLE_COMPOSITE_BOW (Disable Composite Bow) bool false
+DISABLE_STEEL_BOW (Disable Steel Bow) bool false
+DISABLE_COMPOUND_BOW (Disable Compound Bow) bool false
+
+DISABLE_CROSSBOW (Disable Crossbow) bool false
+DISABLE_REPEATING_CROSSBOW (Disable Repeating Crossbow) bool false
+DISABLE_ARBALEST (Disable Arbalest) bool false
+DISABLE_AUTOMATED_ARBALEST (Disable Automated Arbalest) bool false
+
+DISABLE_TELEPORT_ARROW (Disable Teleport Arrow) bool false
+DISABLE_DIG_ARROW (Disable Dig Arrow) bool false
+DISABLE_TNT_ARROW (Disable TNT Arrow) bool false
+DISABLE_TORCH_ARROW (Disable Torch Arrow) bool false
+DISABLE_ROPE_ARROW (Disable Rope Arrow) bool false
+DISABLE_LIGHTNING_ARROW (Disable Lightning Arrow) bool false
+
+DISABLE_FIREWORKS_BLUE_ARROW (Disable Blue Fireworks) bool false
+DISABLE_FIREWORKS_RED_ARROW (Disable Red Fireworks) bool false
+DISABLE_FIREWORKS_GREEN_ARROW (Disable Green Fireworks) bool false
+
+DISABLE_STONE_ARROW (Disable Stone Arrow) bool false
+DISABLE_STEEL_ARROW (Disable Steel Arrow) bool false
+DISABLE_OBSIDIAN_ARROW (Disable Obsidian Arrow) bool false
+DISABLE_DIAMOND_ARROW (Disable Diamond Arrow) bool false
+DISABLE_MITHRIL_ARROW (Disable Mithril Arrow) bool false
+
+THROWING_RECOVERY_CHANCE (Arrow Recovery Chance) float 0.3

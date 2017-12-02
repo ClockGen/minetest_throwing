@@ -1,6 +1,6 @@
-function throwing_register_arrow_standard (kind, desc, eq, toughness, craft)
+function throwing_register_arrow_standard (kind, desc, eq, craft)
 	minetest.register_craftitem("throwing:arrow_" .. kind, {
-		description = desc .. " arrow",
+		description = desc .. " Arrow",
 		inventory_image = "throwing_arrow_" .. kind .. ".png",
 	})
 
@@ -84,10 +84,8 @@ end
 								damage_groups={fleshy=damage},
 							}, nil)
 							minetest.sound_play("default_dug_metal", {pos=objpos, gain=1, max_hear_distance=2*64})
-							if math.random() < toughness then
-								if math.random(0,100) % 2 == 0 then
-									minetest.add_item(self.lastpos, 'throwing:arrow_' .. kind)
-								end
+							if math.random() < THROWING_RECOVERY_CHANCE then
+								minetest.add_item(self.lastpos, 'throwing:arrow_' .. kind)
 							else
 								minetest.add_item(self.lastpos, 'default:stick')
 							end
@@ -103,7 +101,7 @@ end
 				and not string.find(node.name, 'flowers:')
 				and not string.find(node.name, 'fire:') then
 					add_effects(self.lastpos, node)
-					if math.random() < toughness then
+					if math.random() < THROWING_RECOVERY_CHANCE then
 						minetest.add_item(self.lastpos, 'throwing:arrow_' .. kind)
 					else
 						minetest.add_item(self.lastpos, 'default:stick')
@@ -135,21 +133,21 @@ end
 end
 
 if not DISABLE_STONE_ARROW then
-	throwing_register_arrow_standard ('stone', 'Stone', 5, 0.10, 'group:stone')
+	throwing_register_arrow_standard ('stone', 'Stone', 5, 'group:stone')
 end
 
 if not DISABLE_STEEL_ARROW then
-	throwing_register_arrow_standard ('steel', 'Steel', 10, 0.80, 'default:steel_ingot')
+	throwing_register_arrow_standard ('steel', 'Steel', 10, 'default:steel_ingot')
 end
 
 if not DISABLE_OBSIDIAN_ARROW then
-	throwing_register_arrow_standard ('obsidian', 'Obsidian', 15, 0.20, 'default:obsidian')
+	throwing_register_arrow_standard ('obsidian', 'Obsidian', 15, 'default:obsidian')
 end
 
 if not DISABLE_DIAMOND_ARROW then
-	throwing_register_arrow_standard ('diamond', 'Diamond', 20, 0.40, 'default:diamond')
+	throwing_register_arrow_standard ('diamond', 'Diamond', 20, 'default:diamond')
 end
 
 if minetest.get_modpath('moreores') and not DISABLE_MITHRIL_ARROW then
-	throwing_register_arrow_standard ('mithril', 'Mithril', 30, 0.86, 'moreores:mithril_ingot')
+	throwing_register_arrow_standard ('mithril', 'Mithril', 30, 'moreores:mithril_ingot')
 end

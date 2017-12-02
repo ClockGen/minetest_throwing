@@ -84,10 +84,8 @@ THROWING_ARROW_ENTITY.on_step = function(self, dtime)
 							damage_groups={fleshy=damage},
 						}, nil)
 						local toughness = 0.9
-						if math.random() < toughness then
-							if math.random(0,100) % 2 == 0 then -- 50% of chance to drop //MFF (Mg|07/27/15)
-								minetest.add_item(pos, 'throwing:arrow_torch')
-							end
+						if math.random() < THROWING_RECOVERY_CHANCE then
+							minetest.add_item(pos, 'throwing:arrow_torch')
 						else
 							minetest.add_item(pos, 'default:stick')
 						end
@@ -119,12 +117,11 @@ THROWING_ARROW_ENTITY.on_step = function(self, dtime)
 					end
 					add_effects(self.lastpos, node)
 				else
-					local toughness = 0.9
-					if math.random() < toughness then
-						minetest.add_item(self.lastpos, 'throwing:arrow_torch')
-					else
-						minetest.add_item(self.lastpos, 'default:stick')
-					end
+					if math.random() < THROWING_RECOVERY_CHANCE then
+							minetest.add_item(pos, 'throwing:arrow_torch')
+						else
+							minetest.add_item(pos, 'default:stick')
+						end
 				end
 				self.object:remove()
 				return

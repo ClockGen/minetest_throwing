@@ -17,13 +17,6 @@ throwing_arrows = {
 
 dofile(minetest.get_modpath("throwing").."/defaults.lua")
 
-local input = io.open(minetest.get_modpath("throwing").."/throwing.conf", "r")
-if input then
-	dofile(minetest.get_modpath("throwing").."/throwing.conf")
-	input:close()
-	input = nil
-end
-
 dofile(minetest.get_modpath("throwing").."/functions.lua")
 
 dofile(minetest.get_modpath("throwing").."/tools.lua")

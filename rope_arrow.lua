@@ -41,23 +41,25 @@ local THROWING_ARROW_ENTITY={
 }
 local function addEffect(pos, node)
 	minetest.sound_play("default_dug_metal", {pos=pos, gain=1, max_hear_distance=2*64})
-	texture=minetest.registered_nodes[node.name].tiles[1]
-	minetest.add_particlespawner({
-			amount = 16,
-			time = 0.1,
-			minpos = pos,
-			maxpos = pos,
-			minvel = {x = -5, y = -5, z = -5},
-			maxvel = {x = 5, y = 5,  z = 5},
-			minacc = {x = 0, y = -8, z = 0},
-			maxacc = {x = 0, y = -8, z = 0},
-			minexptime = 0.8,
-			maxexptime = 2.0,
-			minsize = 4,
-			maxsize = 6,
-			texture = texture,
-			collisiondetection = true,
-		})
+	if minetest.registered_nodes[node.name].tiles~=nil then
+		texture=minetest.registered_nodes[node.name].tiles[1]
+		minetest.add_particlespawner({
+				amount = 16,
+				time = 0.1,
+				minpos = pos,
+				maxpos = pos,
+				minvel = {x = -5, y = -5, z = -5},
+				maxvel = {x = 5, y = 5,  z = 5},
+				minacc = {x = 0, y = -8, z = 0},
+				maxacc = {x = 0, y = -8, z = 0},
+				minexptime = 0.8,
+				maxexptime = 2.0,
+				minsize = 4,
+				maxsize = 6,
+				texture = texture,
+				collisiondetection = true,
+			})
+		end
 end
 
 THROWING_ARROW_ENTITY.on_step = function(self, dtime)
@@ -80,11 +82,8 @@ THROWING_ARROW_ENTITY.on_step = function(self, dtime)
 							full_punch_interval=1.0,
 							damage_groups={fleshy=damage},
 						}, nil)
-						local toughness = 0.9
-						if math.random() < toughness then
-							if math.random(0,100) % 2 == 0 then -- 50% of chance to drop //MFF (Mg|07/27/15)
-								minetest.add_item(pos, 'throwing:arrow_torch')
-							end
+						if math.random() < THROWING_RECOVERY_CHANCE then
+							minetest.add_item(pos, 'throwing:arrow_rope')
 						else
 							minetest.add_item(pos, 'default:stick')
 						end
@@ -108,12 +107,11 @@ THROWING_ARROW_ENTITY.on_step = function(self, dtime)
 					addEffect(self.lastpos, node)
 					minetest.place_node(self.lastpos, {name="vines:rope_block"})
 				else
-					local toughness = 0.9
-					if math.random() < toughness then
-						minetest.add_item(self.lastpos, 'throwing:arrow_rope')
-					else
-						minetest.add_item(self.lastpos, 'default:stick')
-					end
+					if math.random() < THROWING_RECOVERY_CHANCE then
+							minetest.add_item(pos, 'throwing:arrow_rope')
+						else
+							minetest.add_item(pos, 'default:stick')
+						end
 				end
 				self.object:remove()
 				return
