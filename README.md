@@ -6,6 +6,23 @@
 * Vines from plantlife pack (rope arrow)
 * Lightning (lightning arrow)
 * Moreores (mithril arrow)
+## Full list of items
+* Wooden Bow
+* Longbow
+* Composite Bow
+* Compound Bow
+* Crossbow
+* Repeating Crossbow
+* Arbalest
+* Automated Arbalest
+* Stone/Steel/Obsidian/Diamond/Mithril Arrows
+* Dig Arrow
+* TNT Arrow
+* Torch Arrow
+* Rope Arrow
+* Lightning Arrow
+* Teleport Arrow
+* Red/Green/Blue Fireworks
 ## New Stuff
 * Rewrote code related to damage, which causes mobs to respond to your attacks
 * Returned velocity-based damage
