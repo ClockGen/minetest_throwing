@@ -26,7 +26,7 @@ local function throwing_register_fireworks(color, color2, desc)
 				{7.5/17, -2.5/17, -2.5/17, 8.5/17, -3.5/17, -3.5/17},
 			}
 		},
-		tiles = {"throwing_arrow_fireworks" .. color .. ".png", "throwing_arrow_fireworks" .. color .. ".png", "throwing_arrow_fireworks_" .. color .. "back.png", "throwing_arrow_fireworks_" .. color .. "front.png", "throwing_arrow_fireworks_" .. color .. "2.png", "throwing_arrow_fireworks" .. color .. ".png"},
+		tiles = {"throwing_arrow_fireworks_" .. color .. ".png", "throwing_arrow_fireworks_" .. color .. ".png", "throwing_arrow_fireworks_" .. color .. "_back.png", "throwing_arrow_fireworks_" .. color .. "_front.png", "throwing_arrow_fireworks_" .. color .. "_2.png", "throwing_arrow_fireworks_" .. color .. ".png"},
 		groups = {not_in_creative_inventory=1},
 	})
 
