@@ -33,5 +33,4 @@ DISABLE_MITHRIL_ARROW = minetest.settings:get("DISABLE_MITHRIL_ARROW") or false
 
 -- Other
 THROWING_RECOVERY_CHANCE = minetest.settings:get("THROWING_RECOVERY_CHANCE") or 0.5
-DISABLE_MOREBLOCKS_CRAFT = minetest.settings:get("DISABLE_MOREBLOCKS_CRAFT") or false
-DISABLE_VINES_CRAFT = minetest.settings:get("DISABLE_VINES_CRAFT") or false
+
