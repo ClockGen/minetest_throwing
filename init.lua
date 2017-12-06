@@ -51,6 +51,6 @@ if minetest.get_modpath('vines') and not DISABLE_ROPE_ARROW then
 	dofile(minetest.get_modpath("throwing").."/rope_arrow.lua")
 end
 
-if minetest.get_modpath('lightning') and not DISABLE_LIGHTNING_ARROW then
+if minetest.get_modpath('lightning') and minetest.get_modpath('lightning') and not DISABLE_LIGHTNING_ARROW then
 	dofile(minetest.get_modpath("throwing").."/lightning_arrow.lua")
 end

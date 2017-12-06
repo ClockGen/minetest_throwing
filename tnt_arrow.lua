@@ -180,9 +180,3 @@ minetest.register_craft({
 	}
 })
 
-minetest.register_craft({
-	output = 'throwing:arrow_tnt',
-	recipe = {
-		{'default:bronze_ingot', 'group:coal', 'default:stick'},
-	}
-})

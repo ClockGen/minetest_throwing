@@ -161,31 +161,24 @@ function throwing_register_bow (name, desc, scale, stiffness, reload_time, tough
 		end,
 		groups = {not_in_creative_inventory=1},
 	})
-
-	minetest.register_craft({
-		output = 'throwing:' .. name,
-		recipe = craft
-	})
-
-	local craft_width = 1
-	-- Since # isn't stable especially when there are nils in the table, count by hand
-	for _,v in ipairs(craft) do
-		for i,__ in ipairs(v) do
-			if i > craft_width then
-				craft_width = i
-			end
+	
+	for k,v in pairs(craft) do
+		if v ~= nil then
+			minetest.register_craft({
+				output = 'throwing:' .. name,
+				recipe = v
+			})
 		end
 	end
-	local rev_craft = {}
-	for i,y in ipairs(craft) do
-		rev_craft[i] = {}
-		for j,x in ipairs(y) do
-			rev_craft[i][craft_width-j+1] = x
-		end
-	end
-	minetest.register_craft({
-		output = 'throwing:' .. name,
-		recipe = rev_craft
-	})
+	
 end
 
+function retrieveCraft(schematic, modname)
+	if modname ~= nil then
+		if minetest.get_modpath(modname) then
+			return schematic
+		end
+	else
+		return schematic
+	end
+end

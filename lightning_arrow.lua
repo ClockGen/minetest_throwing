@@ -125,7 +125,7 @@ THROWING_ARROW_ENTITY.on_step = function(self, dtime)
 							puncher = minetest.get_player_by_name(self.player)
 						end
 						local speed = vector.length(self.object:getvelocity())
-						local damage = ((speed + 20)^1.2)/10
+						local damage = ((speed + 25)^1.2)/10
 						obj:punch(puncher, 1.0, {
 							full_punch_interval=1.0,
 							damage_groups={fleshy=damage},
@@ -161,9 +161,3 @@ minetest.register_craft({
 	}
 })
 
-minetest.register_craft({
-	output = 'throwing:arrow_lightning',
-	recipe = {
-		{'default:obsidian_shard', 'default:mese_crystal', 'default:stick'},
-	}
-})

@@ -27,3 +27,7 @@ DISABLE_DIAMOND_ARROW (Disable Diamond Arrow) bool false
 DISABLE_MITHRIL_ARROW (Disable Mithril Arrow) bool false
 
 THROWING_RECOVERY_CHANCE (Arrow Recovery Chance) float 0.3
+
+DISABLE_MOREBLOCKS_CRAFT (Low level bow crafting with ropes from moreblocks) bool false
+
+DISABLE_VINES_CRAFT (Low level bow crafting with vines from vines) bool false

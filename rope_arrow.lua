@@ -131,9 +131,3 @@ minetest.register_craft({
 	}
 })
 
-minetest.register_craft({
-	output = 'throwing:arrow_rope',
-	recipe = {
-		{'vines:rope_block', 'default:stick', 'default:stick'},
-	}
-})

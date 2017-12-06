@@ -123,13 +123,6 @@ end
 			{'default:stick', 'default:stick', craft},
 		}
 	})
-
-	minetest.register_craft({
-		output = 'throwing:arrow_' .. kind .. ' 4',
-		recipe = {
-			{craft, 'default:stick', 'default:stick'},
-		}
-	})
 end
 
 if not DISABLE_STONE_ARROW then
@@ -137,15 +130,15 @@ if not DISABLE_STONE_ARROW then
 end
 
 if not DISABLE_STEEL_ARROW then
-	throwing_register_arrow_standard ('steel', 'Steel', 10, 'default:steel_ingot')
+	throwing_register_arrow_standard ('steel', 'Steel', 12, 'default:steel_ingot')
 end
 
 if not DISABLE_OBSIDIAN_ARROW then
-	throwing_register_arrow_standard ('obsidian', 'Obsidian', 15, 'default:obsidian')
+	throwing_register_arrow_standard ('obsidian', 'Obsidian', 18, 'default:obsidian')
 end
 
 if not DISABLE_DIAMOND_ARROW then
-	throwing_register_arrow_standard ('diamond', 'Diamond', 20, 'default:diamond')
+	throwing_register_arrow_standard ('diamond', 'Diamond', 25, 'default:diamond')
 end
 
 if minetest.get_modpath('moreores') and not DISABLE_MITHRIL_ARROW then

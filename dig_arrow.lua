@@ -120,10 +120,3 @@ minetest.register_craft({
 		{'default:stick', 'default:stick', 'default:pick_steel'},
 	}
 })
-
-minetest.register_craft({
-	output = 'throwing:arrow_dig 4',
-	recipe = {
-		{'default:pick_steel', 'default:stick', 'default:stick'},
-	}
-})

@@ -141,9 +141,3 @@ minetest.register_craft({
 	}
 })
 
-minetest.register_craft({
-	output = 'throwing:arrow_torch 4',
-	recipe = {
-		{'group:coal', 'default:stick', 'default:stick'},
-	}
-})
