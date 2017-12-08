@@ -121,6 +121,6 @@ minetest.register_entity("throwing:arrow_teleport_entity", THROWING_ARROW_ENTITY
 minetest.register_craft({
 	output = 'throwing:arrow_teleport',
 	recipe = {
-		{'default:stick', 'default:copper_ingot', 'default:mese_crystal'}
+		{'default:mese_crystal', 'default:copper_ingot', 'default:stick'}
 	}
 })

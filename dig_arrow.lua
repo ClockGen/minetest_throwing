@@ -115,8 +115,8 @@ end
 minetest.register_entity("throwing:arrow_dig_entity", THROWING_ARROW_ENTITY)
 
 minetest.register_craft({
-	output = 'throwing:arrow_dig 4',
+	output = 'throwing:arrow_dig 8',
 	recipe = {
-		{'default:stick', 'default:stick', 'default:pick_steel'},
+		{'default:pick_steel', 'default:stick', 'default:stick'},
 	}
 })

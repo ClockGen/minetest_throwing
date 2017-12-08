@@ -120,7 +120,7 @@ end
 	minetest.register_craft({
 		output = 'throwing:arrow_' .. kind .. ' 4',
 		recipe = {
-			{'default:stick', 'default:stick', craft},
+			{craft, 'default:stick', 'default:stick'},
 		}
 	})
 end
@@ -142,5 +142,5 @@ if not DISABLE_DIAMOND_ARROW then
 end
 
 if minetest.get_modpath('moreores') and not DISABLE_MITHRIL_ARROW then
-	throwing_register_arrow_standard ('mithril', 'Mithril', 30, 'moreores:mithril_ingot')
+	throwing_register_arrow_standard ('mithril', 'Mithril', 35, 'moreores:mithril_ingot')
 end

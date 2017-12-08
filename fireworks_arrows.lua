@@ -147,7 +147,7 @@ local function throwing_register_fireworks(color, color2, desc)
 	minetest.register_craft({
 		output = 'throwing:arrow_fireworks_' .. color,
 		recipe = {
-			{'default:stick', 'group:coal', 'dye:' .. color},
+			{'dye:' .. color, 'group:coal', 'default:stick'},
 		}
 	})
 

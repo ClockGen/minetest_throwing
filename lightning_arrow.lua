@@ -157,7 +157,7 @@ minetest.register_entity("throwing:arrow_lightning_entity", THROWING_ARROW_ENTIT
 minetest.register_craft({
 	output = 'throwing:arrow_lightning',
 	recipe = {
-		{'default:stick', 'default:mese_crystal', 'default:obsidian_shard'},
+		{'default:obsidian_shard', 'default:mese_crystal', 'default:stick'},
 	}
 })
 

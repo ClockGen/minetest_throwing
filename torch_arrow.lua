@@ -137,7 +137,7 @@ minetest.register_entity("throwing:arrow_torch_entity", THROWING_ARROW_ENTITY)
 minetest.register_craft({
 	output = 'throwing:arrow_torch 4',
 	recipe = {
-		{'default:stick', 'default:stick', 'group:coal'},
+		{'group:coal', 'default:stick', 'default:stick'},
 	}
 })
 

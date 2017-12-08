@@ -176,7 +176,7 @@ minetest.register_entity("throwing:arrow_tnt_entity", THROWING_ARROW_ENTITY)
 minetest.register_craft({
 	output = 'throwing:arrow_tnt',
 	recipe = {
-		{'default:stick', 'group:coal', 'default:bronze_ingot'},
+		{'default:bronze_ingot', 'group:coal', 'default:stick'},
 	}
 })
 
